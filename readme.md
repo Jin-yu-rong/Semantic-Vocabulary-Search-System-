@@ -91,3 +91,32 @@ cd 项目名
 ```bash
 pip install -r requirements.txt
 ```
+
+## 5.代码流程时序图
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant S as EfficientSemanticSearcher
+    participant M as Sentence-BERT
+    participant F as FAISS Index
+    participant V as Vocabulary Store
+    
+    Note over S,V: Offline Initialization (One-time)
+    S->>M: Load pretrained Sentence-BERT
+    S->>V: Load vocab.csv
+    loop Batch Encoding
+        S->>M: Encode word
+        S->>S: L2 normalize embedding
+    end
+    S->>F: Build & cache FAISS index
+    
+    Note over U,S: Online Semantic Search
+    U->>S: Input query sentence
+    S->>M: Encode query
+    S->>S: L2 normalize query vector
+    S->>F: Inner-product ANN search
+    F-->>S: Top-K indices & scores
+    S->>V: Lookup words & meanings
+    S-->>U: Ranked semantic results
+```
