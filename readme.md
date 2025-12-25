@@ -197,7 +197,11 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 
 #### 1.3 单词向量的构建（离线）
 
-对词汇表中的每一个单词  w_i ：
+对词汇表中的每一个单词  
+```math
+w_i 
+```
+都可以将它转化为
 ```math
  \mathbf{e}_i = \text{SBERT}(w_i) 
 ```
@@ -248,9 +252,44 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 #### 3.1 查询向量生成
 
 用户输入查询语句 q ，如：
-&gt; "I love science" / "我爱科学"
+ "I love science" / "我爱科学"
 
 系统执行：
 ```math
  \mathbf{q} = \text{SBERT}(q) \quad \Rightarrow \quad \hat{\mathbf{q}} = \frac{\mathbf{q}}{\|\mathbf{q}\|} 
+```
+
+#### 3.2 相似度计算（核心公式）
+
+对每个词向量
+```math
+ \hat{\mathbf{e}}_i
+```
+计算：
+```math
+ s_i = \hat{\mathbf{q}} \cdot \hat{\mathbf{e}}_i 
+```
+其中：
+```math
+ s_i \in [-1, 1] 
+```
+- 值越大表示语义越相近
+
+该计算本质是：
+ \hat{\mathbf{q}} E^{\top} 
+
+即**向量-矩阵乘法**，时间复杂度为 
+```math
+ O(Nd) 
+```
+
+### 4 FAISS 加速的向量检索算法
+
+#### 4.1 为什么需要 FAISS?
+
+当词汇规模  N  较大时，直接计算所有内积会带来性能瓶颈。
+
+FAISS（Facebook AI Similarity Search）是一个高效的向量相似度搜索库，用于解决：
+```math
+ \arg\max_i \left( \hat{\mathbf{q}} \cdot \hat{\mathbf{e}}_i \right) 
 ```
