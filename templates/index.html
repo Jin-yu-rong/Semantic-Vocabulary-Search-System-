@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能语义单词搜索系统</title>
+    
+    <!-- 正确加载本地 CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- 外部图标和字体 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-search fa-2x"></i>
+                <h1>智能语义单词搜索</h1>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fas fa-book"></i>
+                    <div>
+                        <span class="stat-value">{{ total_words }}</span>
+                        <span class="stat-label">词汇量</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <span class="stat-value">AI</span>
+                        <span class="stat-label">语义理解</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 搜索区 -->
+            <div class="search-section">
+                <div class="search-box">
+                    <i class="fas fa-keyboard"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="输入描述，比如：一种红色的水果 / I love programming..."
+                        autocomplete="off"
+                    >
+                    <button id="searchBtn">
+                        <i class="fas fa-search"></i> 搜索
+                    </button>
+                </div>
+                
+                <div class="search-options">
+                    <div class="option">
+                        <label for="topK">显示数量:</label>
+                        <select id="topK">
+                            <option value="5">5个</option>
+                            <option value="10" selected>10个</option>
+                            <option value="15">15个</option>
+                            <option value="20">20个</option>
+                        </select>
+                    </div>
+                    <div class="option">
+                        <label for="threshold">相似度阈值:</label>
+                        <input type="range" id="threshold" min="0" max="10" value="3" step="0.1">
+                        <span id="thresholdValue">0.3</span>
+                    </div>
+                </div>
+                
+                <div class="examples">
+                    <p>试试这些例子：</p>
+                    <div class="example-tags">
+                        <span class="example-tag" data-query="I love programming and writing code">编程相关</span>
+                        <span class="example-tag" data-query="beautiful scenery and nature">自然风景</span>
+                        <span class="example-tag" data-query="happy emotions and feelings">情感表达</span>
+                        <span class="example-tag" data-query="scientific research and discovery">科学研究</span>
+                        <span class="example-tag" data-query="一种红色的水果，很甜">水果相关</span>
+                        <span class="example-tag" data-query="a tall metal tower in Paris">埃菲尔铁塔</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果区 -->
+            <div class="results-section">
+                <div class="results-header">
+                    <h2><i class="fas fa-list"></i> 搜索结果</h2>
+                    <div class="results-info">
+                        <span id="resultsCount">输入查询开始搜索</span>
+                        <span id="searchTime"></span>
+                    </div>
+                </div>
+                
+                <div id="resultsContainer" class="results-container">
+                    <!-- 初始状态 -->
+                    <div class="empty-state">
+                        <i class="fas fa-comment-alt fa-3x"></i>
+                        <h3>欢迎使用智能语义单词搜索</h3>
+                        <p>输入任何中英文描述，系统会基于AI语义理解，自动找出最相关的单词</p>
+                        <div class="features">
+                            <div class="feature">
+                                <i class="fas fa-language"></i>
+                                <span>支持中英文混合输入</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-brain"></i>
+                                <span>基于Sentence-BERT深度语义模型</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-bolt"></i>
+                                <span>毫秒级响应 + 10万+词汇</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <p>基于 Sentence-BERT 语义模型 • 支持 {{ total_words }} 个单词 • 模型: {{ model_name }}</p>
+            <p class="tech-info">
+                <i class="fas fa-code"></i> 使用 Transformer + 余弦相似度 + FAISS 向量搜索
+            </p>
+        </footer>
+    </div>
+
+    <!-- 加载动画（初始隐藏） -->
+    <div id="loading" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>正在分析语义...</p>
+        </div>
+    </div>
+
+    <!-- 正确加载本地 JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

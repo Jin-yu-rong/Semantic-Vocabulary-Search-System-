@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# 项目特定
+cache/
+*.npy
+*.pkl
+*.bin
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 数据文件（大文件）
+# data/*.csv
+# !data/vocab_sample.csv  (示例文件)
