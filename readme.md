@@ -121,7 +121,7 @@ sequenceDiagram
     S-->>U: Ranked semantic results
 ```
 
-=================================================
+---
 
 ```mermaid
 sequenceDiagram
