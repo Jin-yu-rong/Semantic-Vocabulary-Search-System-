@@ -120,3 +120,30 @@ sequenceDiagram
     S->>V: Lookup words & meanings
     S-->>U: Ranked semantic results
 ```
+
+```mermaid
+sequenceDiagram
+    participant User as 用户
+    participant Searcher as EfficientSemanticSearcher
+    participant Model as Sentence-BERT 模型
+    participant FAISS as FAISS 索引
+    participant Vocab as 词汇向量库
+    
+    Note over Searcher, Vocab: 初始化阶段 (离线，一次)
+    Searcher->>Model: 加载预训练模型
+    Searcher->>Vocab: 读取词汇表CSV
+    loop 批处理词汇
+        Searcher->>Model: 编码单词为向量
+        Searcher->>Searcher: 向量归一化 (单位化)
+    end
+    Searcher->>FAISS: 构建索引并缓存
+    
+    Note over User, Searcher: 实时搜索阶段
+    User->>Searcher: 输入查询语句
+    Searcher->>Model: 编码查询句为向量
+    Searcher->>Searcher: 查询向量归一化
+    Searcher->>FAISS: 内积近似最近邻搜索
+    FAISS-->>Searcher: 返回Top-K相似向量索引和分数
+    Searcher->>Vocab: 根据索引查找对应单词和释义
+    Searcher-->>User: 返回结构化结果 (词, 义, 分)
+```
