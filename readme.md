@@ -88,4 +88,6 @@ cd 项目名
 ```
 
 ### 安装所有依赖（需要10-20分钟，耐心等待）
+```bash
 pip install -r requirements.txt
+```
