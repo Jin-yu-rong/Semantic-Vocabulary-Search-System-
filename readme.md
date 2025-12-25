@@ -165,7 +165,9 @@ sequenceDiagram
 为此，引入**向量空间模型（Vector Space Model）**，将语言映射到连续的高维向量空间中。
 
 目标是构造一个函数：
+```math
 \[ f : \text{Text} \rightarrow \mathbb{R}^d \]
+```
 
 使得：
 - 语义相近的文本 → 向量距离近
@@ -180,8 +182,14 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 - 右塔：编码句子 / 单词 B
 - 两侧参数完全共享，保证语义空间一致性
 
-对任意输入文本 \( x \)，模型输出一个固定维度向量：
+对任意输入文本 
+```math 
+\( x \)
+```
+，模型输出一个固定维度向量：
+```math
 \[ \mathbf{v} = \text{SBERT}(x), \quad \mathbf{v} \in \mathbb{R}^d \]
+```
 
 在本项目中：
 - 向量维度 \( d = 384 \)（由模型结构决定）
@@ -190,13 +198,17 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 #### 1.3 单词向量的构建（离线）
 
 对词汇表中的每一个单词 \( w_i \)：
+```math
 \[ \mathbf{e}_i = \text{SBERT}(w_i) \]
-
+```
 最终得到一个词向量矩阵：
+```math
 \[ E = \begin{bmatrix} \mathbf{e}_1 \\ \mathbf{e}_2 \\ \vdots \\ \mathbf{e}_N \end{bmatrix} \in \mathbb{R}^{N \times d} \]
-
-其中 \( N \approx 8000 \)。
-
+```
+其中
+```math
+ \( N \approx 8000 \)。
+```
 该过程在系统初始化阶段**离线执行一次**，并缓存结果。
 
 ### 2 向量归一化（Normalization）
@@ -208,16 +220,19 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 **方向相似性（语义）而非长度**
 
 因此，对所有向量进行 L2 归一化：
+```math
 \[ \hat{\mathbf{v}} = \frac{\mathbf{v}}{\|\mathbf{v}\|_2} \]
-
+```
 归一化后满足：
+```math
 \[ \|\hat{\mathbf{v}}\|_2 = 1 \]
-
+```
 #### 2.2 归一化的数学意义
 
 归一化后，任意两个向量的**内积**等价于**余弦相似度**：
+```math
 \[ \hat{\mathbf{u}} \cdot \hat{\mathbf{v}} = \cos(\theta) \]
-
+```
 其中 \(\theta\) 为两个向量之间的夹角。
 
 这使得：
@@ -232,4 +247,6 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 &gt; "I love science" / "我爱科学"
 
 系统执行：
+```math
 \[ \mathbf{q} = \text{SBERT}(q) \quad \Rightarrow \quad \hat{\mathbf{q}} = \frac{\mathbf{q}}{\|\mathbf{q}\|} \]
+```
