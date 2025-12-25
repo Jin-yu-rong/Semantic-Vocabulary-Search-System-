@@ -121,6 +121,8 @@ sequenceDiagram
     S-->>U: Ranked semantic results
 ```
 
+=================================================
+
 ```mermaid
 sequenceDiagram
     participant User as 用户
