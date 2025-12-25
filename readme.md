@@ -166,7 +166,7 @@ sequenceDiagram
 
 目标是构造一个函数：
 ```math
-\[ f : \text{Text} \rightarrow \mathbb{R}^d \]
+ f : \text{Text} \rightarrow \mathbb{R}^d 
 ```
 
 使得：
@@ -184,30 +184,30 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 
 对任意输入文本 
 ```math 
-\( x \)
+ x 
 ```
 ，模型输出一个固定维度向量：
 ```math
-\[ \mathbf{v} = \text{SBERT}(x), \quad \mathbf{v} \in \mathbb{R}^d \]
+ \mathbf{v} = \text{SBERT}(x), \quad \mathbf{v} \in \mathbb{R}^d 
 ```
 
 在本项目中：
-- 向量维度 \( d = 384 \)（由模型结构决定）
+- 向量维度  d = 384 （由模型结构决定）
 - 单词和句子**使用同一编码器**，保证可比较性
 
 #### 1.3 单词向量的构建（离线）
 
-对词汇表中的每一个单词 \( w_i \)：
+对词汇表中的每一个单词  w_i ：
 ```math
-\[ \mathbf{e}_i = \text{SBERT}(w_i) \]
+ \mathbf{e}_i = \text{SBERT}(w_i) 
 ```
 最终得到一个词向量矩阵：
 ```math
-\[ E = \begin{bmatrix} \mathbf{e}_1 \\ \mathbf{e}_2 \\ \vdots \\ \mathbf{e}_N \end{bmatrix} \in \mathbb{R}^{N \times d} \]
+ E = \begin{bmatrix} \mathbf{e}_1 \\ \mathbf{e}_2 \\ \vdots \\ \mathbf{e}_N \end{bmatrix} \in \mathbb{R}^{N \times d} 
 ```
 其中
 ```math
- \( N \approx 8000 \)。
+  \approx 8000 
 ```
 该过程在系统初始化阶段**离线执行一次**，并缓存结果。
 
@@ -221,19 +221,23 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 
 因此，对所有向量进行 L2 归一化：
 ```math
-\[ \hat{\mathbf{v}} = \frac{\mathbf{v}}{\|\mathbf{v}\|_2} \]
+ \hat{\mathbf{v}} = \frac{\mathbf{v}}{\|\mathbf{v}\|_2} 
 ```
 归一化后满足：
 ```math
-\[ \|\hat{\mathbf{v}}\|_2 = 1 \]
+ \|\hat{\mathbf{v}}\|_2 = 1 
 ```
 #### 2.2 归一化的数学意义
 
 归一化后，任意两个向量的**内积**等价于**余弦相似度**：
 ```math
-\[ \hat{\mathbf{u}} \cdot \hat{\mathbf{v}} = \cos(\theta) \]
+ \hat{\mathbf{u}} \cdot \hat{\mathbf{v}} = \cos(\theta) 
 ```
-其中 \(\theta\) 为两个向量之间的夹角。
+其中
+```math
+ \theta 
+```
+为两个向量之间的夹角。
 
 这使得：
 - 相似语义 → 夹角小 → 内积接近 1
@@ -243,10 +247,10 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 
 #### 3.1 查询向量生成
 
-用户输入查询语句 \( q \)，如：
+用户输入查询语句 q ，如：
 &gt; "I love science" / "我爱科学"
 
 系统执行：
 ```math
-\[ \mathbf{q} = \text{SBERT}(q) \quad \Rightarrow \quad \hat{\mathbf{q}} = \frac{\mathbf{q}}{\|\mathbf{q}\|} \]
+ \mathbf{q} = \text{SBERT}(q) \quad \Rightarrow \quad \hat{\mathbf{q}} = \frac{\mathbf{q}}{\|\mathbf{q}\|} 
 ```
