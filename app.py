@@ -9,7 +9,7 @@ import pandas as pd
 import pickle
 import os
 
-class EfficientSemanticSearcher:
+class EfficientSemanticSearcher:        #语义搜索引擎类
     def __init__(self, model_name='paraphrase-multilingual-MiniLM-L12-v2',   
                  vocab_path='vocab_clean.csv', cache_dir='./cache'):   #您可以改这里的csv路径
         self.cache_dir = Path(cache_dir)
@@ -146,7 +146,7 @@ class EfficientSemanticSearcher:
             normalize_embeddings=True
         ).astype(np.float16)
        
-        scores = np.dot(self.word_embeddings, query_emb)
+        scores = np.dot(self.word_embeddings, query_emb)  #查询向量与第i个词向量的内积
        
         if top_k >= len(scores):
             top_indices = np.argsort(-scores)

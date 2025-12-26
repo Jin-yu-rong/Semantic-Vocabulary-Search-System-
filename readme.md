@@ -156,6 +156,33 @@ sequenceDiagram
 算法整体可分为 向量表示 → 向量归一化 → 相似度计算 → 高效检索 四个核心步骤。
 
 ---
+### 0 前置知识
+
+#### 0.1平均池化（Average Pooling）
+
+    假设一句话是：
+```math
+"I like machine learning"
+```
+模型先把它变成词向量（假设每个词是3维，为了好理解）：
+
+text
+I    -> [1, 0, 0]
+like -> [0, 1, 0]
+machine -> [0, 0, 1]
+learning -> [1, 1, 0]
+
+平均池化就是：
+
+句向量 = (所有词向量加起来) / 词数
+
+text
+= ([1,0,0] + [0,1,0] + [0,0,1] + [1,1,0]) / 4
+= [0.5, 0.5, 0.25]
+
+
+
+---
 
 ### 1 词与句子的向量化表示（Embedding）
 
@@ -186,7 +213,7 @@ Sentence-BERT 本质上是一个**共享参数的双塔 Transformer 网络**：
 ```math 
  x 
 ```
-，模型输出一个固定维度向量：
+模型输出一个固定维度向量：
 ```math
  \mathbf{v} = \text{SBERT}(x), \quad \mathbf{v} \in \mathbb{R}^d 
 ```
@@ -276,8 +303,9 @@ w_i
 - 值越大表示语义越相近
 
 该计算本质是：
+```math
  \hat{\mathbf{q}} E^{\top} 
-
+```
 即**向量-矩阵乘法**，时间复杂度为 
 ```math
  O(Nd) 
@@ -293,3 +321,4 @@ FAISS（Facebook AI Similarity Search）是一个高效的向量相似度搜索�
 ```math
  \arg\max_i \left( \hat{\mathbf{q}} \cdot \hat{\mathbf{e}}_i \right) 
 ```
+
