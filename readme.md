@@ -160,7 +160,7 @@ sequenceDiagram
 
 #### 0.1平均池化（Average Pooling）
 
-    假设一句话是：
+假设一句话是：
 
 ```html
 "I like machine learning"
@@ -184,6 +184,32 @@ text
 = ([1,0,0] + [0,1,0] + [0,0,1] + [1,1,0]) / 4
 = [0.5, 0.5, 0.25]
 ```
+
+我们看一个例子：
+
+假设词向量（为了直觉，用2维）
+```html
+text
+the    -> [0.1, 0.1]
+cat    -> [0.9, 0.8]
+is     -> [0.1, 0.1]
+on     -> [0.2, 0.1]
+the    -> [0.1, 0.1]
+mat    -> [0.8, 0.9]
+```
+平均池化在干嘛？
+
+```python
+sentence_vec = (
+    the + cat + is + on + the + mat
+) / 6
+```
+结果会被 the / is / on 这些“废话词”严重拉低,导致模型被迫“认真对待废话”
+
+TF-IDF 到底是什么？ （Term Frequency Inverse Document Frequency）
+
+Term Frequency (TF)	| 词频	| 一个词在单个文档中出现的频率
+Inverse Document Frequency (IDF) |	逆文档频率 |	衡量一个词在整个文档集合中的普遍重要性
 
 
 ---
