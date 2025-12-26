@@ -291,6 +291,16 @@ sentence_vec = sum(tfidf[i] * word_vec[i]) / sum(tfidf)
 答： 请往下看
 
 ```
+TF-IDF 的极限
+
+| 问题    | 原因               |
+| ----- | ---------------- |
+| 不懂语序  | 仍然是“袋子”          |
+| 不懂上下文 | bank 还是 bank     |
+| 同义词无感 | car ≠ automobile |
+| 不能泛化  | 词没见过就废           |
+
+
 
 
 ---
