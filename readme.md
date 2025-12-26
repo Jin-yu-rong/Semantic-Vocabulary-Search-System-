@@ -345,7 +345,7 @@ x₁, x₂, x₃, x₄, x₅
 现在问题是：
 怎么让模型“读懂顺序”？
 
-LSTM：会“记忆”的函数（核心思想）
+长短时记忆网络（LSTM）：会“记忆”的函数（核心思想）
 
 你可以把 LSTM 理解成一个函数：
 ```math
@@ -354,7 +354,7 @@ LSTM：会“记忆”的函数（核心思想）
 含义：
 当前状态 = 当前词 + 之前看到的所有词
 
-1️ 正向 LSTM（Forward）
+- 正向 LSTM（Forward）
 从左到右：
 
 ```text
@@ -364,6 +364,68 @@ I → really → like → machine → learning
 ```math
  \vec{h}_1, \vec{h}_2, ..., \vec{h}_5 
 ```
+
+例如：
+```math
+ h_3 
+```
+包含：
+  - “I”
+  - “really”
+  - “like”
+
+👉 知道 前文
+
+- 反向 LSTM（Backward）
+
+从右到左：
+
+```text
+learning → machine → like → really → I
+```
+得到：
+```math
+ \vec{h}_5, \vec{h}_4, ..., \vec{h}_1 
+```
+
+例如：
+```math
+ h_3 
+```
+  包含
+  - “machine” 
+  - “learning”
+
+👉 知道 后文
+
+双向长短时记忆网络（BiLSTM） = 前后都知道
+
+在每个位置，把两边拼起来：
+```math
+ h_i = [\vec{h}_i; \overleftarrow{h}_i] 
+```
+
+这一步非常重要：
+每个词向量 = “我是谁 + 我在句子里干嘛”
+
+经过 BiLSTM，我们得到的是：
+
+```math
+h_1, h_2, h_3, h_4, h_5
+```
+每一个 
+```math
+ h_i 
+```
+- 不再是“词典里的意思”
+- 而是“这个词在这个句子里的含义”
+
+例如：
+“like” 在
+- “I like apples”
+- “Looks like rain”
+
+会是完全不同的向量
 
 ---
 
