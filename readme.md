@@ -213,6 +213,84 @@ TF-IDF 到底是什么？ （Term Frequency Inverse Document Frequency）
 | Term Frequency (TF) | 词频 | 一个词在**单个文档**中出现的频率 |
 | Inverse Document Frequency (IDF) | 逆文档频率 | 衡量一个词在**整个文档集合**中的普遍重要性 |
 
+例子
+```html
+the cat and the dog
+```
+| 词   | 出现次数 |
+| --- | ---- |
+| the | 2    |
+| cat | 1    |
+| dog | 1    |
+
+直觉：
+
+出现多 → 可能重要
+
+但这一步 不够（因为 the 出现最多，但它不重要）
+
+IDF(word) = 如果这个词在“所有句子”里都很常见 → 它没啥信息量
+
+例子
+
+比如在一个大语料库里面
+
+| 词     | 出现在哪些句子 |
+| ----- | ------- |
+| the   | 几乎所有句子  |
+| cat   | 一部分     |
+| quark | 很少      |
+
+```html
+IDF(the)   → 很小
+IDF(cat)   → 中等
+IDF(quark) → 很大
+```
+
+一般结论：“越稀有，信息量越大”
+
+```html
+TF-IDF(word) = 
+    这个词在当前句子中重要吗？
+    ×
+    这个词在整个语料中稀有吗？
+```
+
+例子
+
+| 词     | TF | IDF | TF-IDF |
+| ----- | -- | --- | ------ |
+| the   | 高  | 极低  | 低      |
+| cat   | 中  | 中   | 中      |
+| mat   | 中  | 中   | 中      |
+| quark | 低  | 极高  | 中      |
+
+通过 TF-IDF 废话词被自然压低
+
+对应核心代码
+```python
+sentence_vec = sum(tfidf[i] * word_vec[i]) / sum(tfidf)
+```
+```html
+问：word_vec[i] 是什么?
+答：第 i 个词的向量 ， 它的形状通常是 word_vec[i].shape == (d,) 其中“d，”表示[0.9, 0.8, ..., 0.1]  # d = 768
+
+问：tfidf[i] 是什么？
+答：第 i 个词的“重要性分数”（一个标量）
+
+问： tfidf[i] * word_vec[i] 在做什么？
+答： "让重要的词，在句向量里声音更大"
+
+问： sum(tfidf[i] * word_vec[i])在做什么？
+答： 把“加权后的词向量”全部加起来
+
+问： 为什么要 / sum(tfidf)？如果不除，会发生什么？
+答：  词多的句子 → 向量模长更大 相似度比较会被长度干扰 除以 sum(tfidf) 的作用是把句向量拉回到"平均尺度",其本质是加权平均，而不是"加权求和"
+
+问： 那为什么现在大家很少“只用 TF-IDF”？
+答： 请往下看
+
+```
 
 
 ---
