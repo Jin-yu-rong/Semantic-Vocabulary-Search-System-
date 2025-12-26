@@ -208,9 +208,11 @@ sentence_vec = (
 
 TF-IDF 到底是什么？ （Term Frequency Inverse Document Frequency）
 
-|---|---|
-|Term Frequency (TF)	| 词频	| 一个词在单个文档中出现的频率|
-|Inverse Document Frequency (IDF) |	逆文档频率 |	衡量一个词在整个文档集合中的普遍重要性|
+| 英文术语 | 中文翻译 | 含义解释 |
+|---|---|---|
+| Term Frequency (TF) | 词频 | 一个词在**单个文档**中出现的频率 |
+| Inverse Document Frequency (IDF) | 逆文档频率 | 衡量一个词在**整个文档集合**中的普遍重要性 |
+
 
 
 ---
