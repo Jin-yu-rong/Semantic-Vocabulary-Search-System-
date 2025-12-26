@@ -300,8 +300,70 @@ TF-IDF 的极限
 | 同义词无感 | car ≠ automobile |
 | 不能泛化  | 词没见过就废           |
 
+所以TF-IDF 只是“数学加权”，不是“理解语义”，我们刚刚探索的是“收尾动作”，而真正理解句子的，是 Encoder
 
+开始进入“模型”部分
 
+- 先把一句话当成“时间序列”
+
+句子不是一坨字，而是有顺序的数据
+
+例子
+
+```text
+"I really like machine learning"
+```
+
+把它编号：
+
+| 位置 | 词        |
+| -- | -------- |
+| 1  | I        |
+| 2  | really   |
+| 3  | like     |
+| 4  | machine  |
+| 5  | learning |
+
+这就是一个 **序列**：
+
+```text
+x₁, x₂, x₃, x₄, x₅
+```
+
+每个词先变成一个向量：
+```math
+ x_i \in \mathbb{R}^d 
+```
+例如：
+
+```math
+"I"    ->  x_1 
+"really" ->  x_2 
+"like"  ->  x_3 
+```
+
+现在问题是：
+怎么让模型“读懂顺序”？
+
+LSTM：会“记忆”的函数（核心思想）
+
+你可以把 LSTM 理解成一个函数：
+```math
+ h_t = \text{LSTM}(x_t, h_{t-1}) 
+```
+含义：
+当前状态 = 当前词 + 之前看到的所有词
+
+1️ 正向 LSTM（Forward）
+从左到右：
+
+```text
+I → really → like → machine → learning
+```
+对应数学：
+```math
+ \vec{h}_1, \vec{h}_2, ..., \vec{h}_5 
+```
 
 ---
 
