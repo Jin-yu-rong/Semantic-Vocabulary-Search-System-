@@ -161,25 +161,29 @@ sequenceDiagram
 #### 0.1平均池化（Average Pooling）
 
     假设一句话是：
-```math
+
+```html
 "I like machine learning"
 ```
 模型先把它变成词向量（假设每个词是3维，为了好理解）：
 
+```html
 text
 I    -> [1, 0, 0]
 like -> [0, 1, 0]
 machine -> [0, 0, 1]
 learning -> [1, 1, 0]
 
+```
 平均池化就是：
 
 句向量 = (所有词向量加起来) / 词数
 
+```html
 text
 = ([1,0,0] + [0,1,0] + [0,0,1] + [1,1,0]) / 4
 = [0.5, 0.5, 0.25]
-
+```
 
 
 ---
