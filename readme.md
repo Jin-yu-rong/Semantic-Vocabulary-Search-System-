@@ -208,8 +208,8 @@ sentence_vec = (
 
 TF-IDF 到底是什么？ （Term Frequency Inverse Document Frequency）
 
-Term Frequency (TF)	| 词频	| 一个词在单个文档中出现的频率
-Inverse Document Frequency (IDF) |	逆文档频率 |	衡量一个词在整个文档集合中的普遍重要性
+|Term Frequency (TF)	| 词频	| 一个词在单个文档中出现的频率|
+|Inverse Document Frequency (IDF) |	逆文档频率 |	衡量一个词在整个文档集合中的普遍重要性|
 
 
 ---
